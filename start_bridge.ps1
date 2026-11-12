@@ -1,11 +1,14 @@
-$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
-[Console]::InputEncoding = $utf8NoBom
-[Console]::OutputEncoding = $utf8NoBom
-$Host.UI.RawUI.WindowTitle = "Antigravity 手机联动 Bridge (18765)"
+﻿[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+
+try {
+    $Host.UI.RawUI.WindowTitle = "Antigravity 手机联动 Bridge (18765)"
+} catch {}
 
 $bridgePy = Join-Path $PSScriptRoot "antigravity_bridge.py"
 if (-not (Test-Path -LiteralPath $bridgePy)) {
-    Write-Host "错误: 未找到桥接脚本: $bridgePy" -ForegroundColor Red
+    Write-Host "[ERROR] 未找到桥接脚本: $bridgePy" -ForegroundColor Red
     pause
     exit 1
 }
@@ -34,7 +37,7 @@ if ($cmd) {
 }
 
 if (-not $pyExe) {
-    Write-Host "错误: 电脑上未找到 Python 3 环境！" -ForegroundColor Red
+    Write-Host "[ERROR] 电脑上未找到 Python 3 环境！" -ForegroundColor Red
     Write-Host "请先安装 Python 3（安装时请勾选 'Add python.exe to PATH'）" -ForegroundColor Yellow
     pause
     exit 1
@@ -57,8 +60,8 @@ $env:PYTHONIOENCODING = "utf-8"
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host "  Antigravity 手机联动 Bridge 启动中..." -ForegroundColor Green
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "• 提示: 保持此窗口打开即可保持手机联动；" -ForegroundColor DarkGray
-Write-Host "• 提示: 若要开机静默常驻，请双击运行 install_autostart.bat。" -ForegroundColor DarkGray
+Write-Host "  - 提示: 保持此窗口打开即可保持手机联动；" -ForegroundColor DarkGray
+Write-Host "  - 提示: 若要开机静默常驻，请双击运行 install_autostart.bat。" -ForegroundColor DarkGray
 Write-Host ""
 
 & $pyExe -X utf8 $bridgePy
